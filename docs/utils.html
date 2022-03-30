@@ -46,33 +46,6 @@ nb_path: "99_utils.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_da</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;addition&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;addition&quot;</span><span class="p">,</span> <span class="s2">&quot;Sum of two numbers&quot;</span><span class="p">)],</span> <span class="p">[</span><span class="s2">&quot;subtraction&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;subtraction&quot;</span><span class="p">)]]</span>
-
-<span class="n">_d</span> <span class="o">=</span> <span class="n">_DocumentedEnum</span><span class="p">(</span><span class="s2">&quot;test_enum&quot;</span><span class="p">,</span> <span class="n">_da</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">_d</span><span class="p">,</span> <span class="s2">&quot;addition&quot;</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">addition</span><span class="p">),</span> <span class="s2">&quot;addition&quot;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">addition</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="s2">&quot;Sum of two numbers&quot;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">addition</span> <span class="o">==</span> <span class="s2">&quot;addition&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-
-<span class="n">test_eq</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">subtraction</span><span class="p">),</span> <span class="s2">&quot;subtraction&quot;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">subtraction</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="s2">&quot;An enumeration.&quot;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">subtraction</span> <span class="o">!=</span> <span class="s2">&quot;addition&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -88,7 +61,7 @@ nb_path: "99_utils.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="SelfEnum" class="doc_header"><code>SelfEnum</code><a href="https://github.com/muellerzr/fastreinference/tree/master/fastreinference/utils.py#L59" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>SelfEnum</code>(<strong><code>special</code></strong>:<code>list</code>=<em><code>None</code></em>)</p>
+<h4 id="enumify" class="doc_header"><code>enumify</code><a href="https://github.com/muellerzr/fastreinference/tree/master/fastreinference/utils.py#L59" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>enumify</code>(<strong><code>special</code></strong>:<code>list</code>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>A decorator to turn <code>cls</code> into an Enum class with member values as property names.
 If a type is specified, the resulting Enum will subclass it.</p>
@@ -96,9 +69,11 @@ If a type is specified, the resulting Enum will subclass it.</p>
 to <code>special</code></p>
 <p>Classes should use the following annotation when defining them:</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="nd">@enumify</span><span class="p">(</span><span class="n">special</span><span class="o">=</span><span class="s2">&quot;name_three&quot;</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">MyClass</span><span class="p">:</span>
   <span class="n">NAME</span><span class="p">:</span><span class="n">Any</span> <span class="o">=</span> <span class="s2">&quot;Some documented enum value&quot;</span>
   <span class="n">name_two</span><span class="p">:</span><span class="n">Any</span> <span class="c1"># An undocumented enum value</span>
+  <span class="n">name_three</span> <span class="o">=</span> <span class="s2">&quot;A value&quot;</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span>
 </pre></div>
 
 </div>
@@ -125,7 +100,7 @@ to <code>special</code></p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@SelfEnum</span><span class="p">(</span><span class="n">special</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;WEDNESDAY&quot;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@enumify</span><span class="p">(</span><span class="n">special</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;WEDNESDAY&quot;</span><span class="p">])</span>
 <span class="k">class</span> <span class="nc">DaysOfWeek</span><span class="p">:</span>
     <span class="n">MONDAY</span><span class="p">:</span><span class="n">Any</span> <span class="o">=</span> <span class="s2">&quot;First day of the week&quot;</span>
     <span class="n">TUESDAY</span><span class="p">:</span><span class="n">Any</span>
@@ -134,7 +109,7 @@ to <code>special</code></p>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">MONDAY</span><span class="p">,</span> <span class="s2">&quot;monday&quot;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">MONDAY</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="s2">&quot;First day of the week&quot;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">TUESDAY</span><span class="p">,</span> <span class="s2">&quot;tuesday&quot;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">TUESDAY</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="s2">&quot;An enumeration.&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">TUESDAY</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">WEDNESDAY</span><span class="p">,</span> <span class="s2">&quot;Wed&quot;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">WEDNESDAY</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="s2">&quot;Second day of the week&quot;</span><span class="p">)</span>
 </pre></div>

@@ -7,10 +7,10 @@ from abc import ABC, abstractmethod, abstractproperty
 from typing import Any
 
 import torch
-from .utils import SelfEnum
+from .utils import enumify
 
 # Cell
-@SelfEnum
+@enumify
 class DeviceType:
     """
     Enum of all supported device placements
@@ -26,7 +26,7 @@ def get_default_device():
     return DeviceType.CPU if not torch.cuda.is_available() else DeviceType.CUDA
 
 # Cell
-@SelfEnum(special=["INFERENCE"])
+@enumify(special=["INFERENCE"])
 class ManagerType:
     """
     Enum of the various context manager options you can use when doing inference, with documentation of its members
