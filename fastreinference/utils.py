@@ -58,7 +58,7 @@ def _assign_annotations(cls, special=None):
 # Cell
 def enumify(cls=None, *, special:list=None):
     """
-    A decorator to turn `cls` into an Enum class with member values as property names.
+    A decorator to turn `cls` into an Enum class with member values as property names, and potentially with documentation
 
     If any Enum member is defined as a regular tuple of (value, doc), they should be passed in
     to `special`
