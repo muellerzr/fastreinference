@@ -59,7 +59,6 @@ def _assign_annotations(cls, special=None):
 def enumify(cls=None, *, special:list=None):
     """
     A decorator to turn `cls` into an Enum class with member values as property names.
-    If a type is specified, the resulting Enum will subclass it.
 
     If any Enum member is defined as a regular tuple of (value, doc), they should be passed in
     to `special`
