@@ -2,9 +2,16 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"InferenceCallback": "00_callbacks.ipynb"}
+index = {"DeviceType": "00_configure.ipynb",
+         "get_default_device": "00_configure.ipynb",
+         "ManagerType": "00_configure.ipynb",
+         "InferenceConfiguration": "00_configure.ipynb",
+         "Performer": "01_performer.ipynb",
+         "SelfEnum": "99_utils.ipynb"}
 
-modules = ["callbacks.py"]
+modules = ["configure.py",
+           "performer.py",
+           "utils.py"]
 
 doc_url = "https://muellerzr.github.io/fastreinference/"
 
