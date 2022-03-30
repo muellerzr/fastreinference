@@ -51,7 +51,9 @@ def _assign_annotations(cls, special=None):
         for name in special:
             value, doc = getattr(cls, name, None)
             names.append([name, (value, doc)])
-    return _DocumentedEnum(value=cls.__name__, names=names)
+    new_cls = _DocumentedEnum(value=cls.__name__, names=names)
+    new_cls.__doc__ = cls.__doc__
+    return new_cls
 
 # Cell
 def SelfEnum(cls=None, *, special:list=None):
