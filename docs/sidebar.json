@@ -1,8 +1,8 @@
 {
   "fastreinference": {
     "Overview": "/",
+    "Typing": "typing.html",
     "Configure": "configure.html",
-    "Performer": "performer.html",
-    "Utilities": "utils.html"
+    "Performer": "performer.html"
   }
 }

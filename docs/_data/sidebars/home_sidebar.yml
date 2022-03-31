@@ -10,14 +10,14 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
+      title: Typing
+      url: typing.html
+    - output: web,pdf
       title: Configure
       url: configure.html
     - output: web,pdf
       title: Performer
       url: performer.html
-    - output: web,pdf
-      title: Utilities
-      url: utils.html
     output: web
     title: fastreinference
   output: web

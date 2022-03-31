@@ -2,17 +2,17 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"DeviceType": "00_configure.ipynb",
-         "get_default_device": "00_configure.ipynb",
-         "ManagerType": "00_configure.ipynb",
-         "InferenceConfiguration": "00_configure.ipynb",
-         "Performer": "01_performer.ipynb",
-         "Member": "99_utils.ipynb",
-         "enumify": "99_utils.ipynb"}
+index = {"Member": "00_typing.ipynb",
+         "enumify": "00_typing.ipynb",
+         "DeviceType": "01_configure.ipynb",
+         "get_default_device": "01_configure.ipynb",
+         "ManagerType": "01_configure.ipynb",
+         "InferenceConfiguration": "01_configure.ipynb",
+         "Performer": "02_performer.ipynb"}
 
-modules = ["configure.py",
-           "performer.py",
-           "utils.py"]
+modules = ["typing.py",
+           "configure.py",
+           "performer.py"]
 
 doc_url = "https://muellerzr.github.io/fastreinference/"
 
