@@ -4,10 +4,9 @@ __all__ = ['DeviceType', 'get_default_device', 'ManagerType', 'InferenceConfigur
 
 # Cell
 from abc import ABC, abstractmethod, abstractproperty
-from typing import Any
 
-import torch
-from .utils import enumify
+# import torch
+from .utils import enumify, Member
 
 # Cell
 @enumify
@@ -15,8 +14,8 @@ class DeviceType:
     """
     Enum of all supported device placements
     """
-    CPU:Any
-    CUDA:Any
+    CPU:Member
+    CUDA:Member
 
 # Cell
 def get_default_device():
@@ -26,14 +25,14 @@ def get_default_device():
     return DeviceType.CPU if not torch.cuda.is_available() else DeviceType.CUDA
 
 # Cell
-@enumify(special=["INFERENCE"])
+@enumify
 class ManagerType:
     """
     Enum of the various context manager options you can use when doing inference, with documentation of its members
     """
-    NO_GRAD:Any = "Run with `torch.no_grad`"
-    INFERENCE = "inference_mode", "Run with `torch.inference_mode`"
-    NONE:Any = "Keep all gradients and apply no context managers"
+    NO_GRAD:Member["Run with `torch.no_grad`"]
+    INFERENCE:Member["inference_mode", "Run with `torch.inference_mode`"]
+    NONE:Member["Keep all gradients and apply no context managers"]
 
 # Cell
 class InferenceConfiguration(ABC):

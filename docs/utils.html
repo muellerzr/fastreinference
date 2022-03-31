@@ -39,6 +39,94 @@ nb_path: "99_utils.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>typing._BaseGenericAlias<span class="o">??</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre><span class="ansi-red-fg">Init signature:</span> typing<span class="ansi-blue-fg">.</span>_BaseGenericAlias<span class="ansi-blue-fg">(</span>origin<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span><span class="ansi-blue-fg">,</span> inst<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-red-fg">Source:</span>        
+<span class="ansi-green-fg">class</span> _BaseGenericAlias<span class="ansi-blue-fg">(</span>_Final<span class="ansi-blue-fg">,</span> _root<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+    <span class="ansi-blue-fg">&#34;&#34;&#34;The central part of internal API.</span>
+
+<span class="ansi-blue-fg">    This represents a generic version of type &#39;origin&#39; with type arguments &#39;params&#39;.</span>
+<span class="ansi-blue-fg">    There are two kind of these aliases: user defined and special. The special ones</span>
+<span class="ansi-blue-fg">    are wrappers around builtin collections and ABCs in collections.abc. These must</span>
+<span class="ansi-blue-fg">    have &#39;name&#39; always set. If &#39;inst&#39; is False, then the alias can&#39;t be instantiated,</span>
+<span class="ansi-blue-fg">    this is used by e.g. typing.List and typing.Dict.</span>
+<span class="ansi-blue-fg">    &#34;&#34;&#34;</span>
+    <span class="ansi-green-fg">def</span> __init__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> origin<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span><span class="ansi-blue-fg">,</span> inst<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+        self<span class="ansi-blue-fg">.</span>_inst <span class="ansi-blue-fg">=</span> inst
+        self<span class="ansi-blue-fg">.</span>_name <span class="ansi-blue-fg">=</span> name
+        self<span class="ansi-blue-fg">.</span>__origin__ <span class="ansi-blue-fg">=</span> origin
+        self<span class="ansi-blue-fg">.</span>__slots__ <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">None</span>  <span class="ansi-red-fg"># This is not documented.</span>
+
+    <span class="ansi-green-fg">def</span> __call__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+        <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> self<span class="ansi-blue-fg">.</span>_inst<span class="ansi-blue-fg">:</span>
+            <span class="ansi-green-fg">raise</span> TypeError<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#34;Type {self._name} cannot be instantiated; &#34;</span>
+                            <span class="ansi-blue-fg">f&#34;use {self.__origin__.__name__}() instead&#34;</span><span class="ansi-blue-fg">)</span>
+        result <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>__origin__<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+        <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+            result<span class="ansi-blue-fg">.</span>__orig_class__ <span class="ansi-blue-fg">=</span> self
+        <span class="ansi-green-fg">except</span> AttributeError<span class="ansi-blue-fg">:</span>
+            <span class="ansi-green-fg">pass</span>
+        <span class="ansi-green-fg">return</span> result
+
+    <span class="ansi-green-fg">def</span> __mro_entries__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> bases<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+        res <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">]</span>
+        <span class="ansi-green-fg">if</span> self<span class="ansi-blue-fg">.</span>__origin__ <span class="ansi-green-fg">not</span> <span class="ansi-green-fg">in</span> bases<span class="ansi-blue-fg">:</span>
+            res<span class="ansi-blue-fg">.</span>append<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__origin__<span class="ansi-blue-fg">)</span>
+        i <span class="ansi-blue-fg">=</span> bases<span class="ansi-blue-fg">.</span>index<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span>
+        <span class="ansi-green-fg">for</span> b <span class="ansi-green-fg">in</span> bases<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">+</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">:</span>
+            <span class="ansi-green-fg">if</span> isinstance<span class="ansi-blue-fg">(</span>b<span class="ansi-blue-fg">,</span> _BaseGenericAlias<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">or</span> issubclass<span class="ansi-blue-fg">(</span>b<span class="ansi-blue-fg">,</span> Generic<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+                <span class="ansi-green-fg">break</span>
+        <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+            res<span class="ansi-blue-fg">.</span>append<span class="ansi-blue-fg">(</span>Generic<span class="ansi-blue-fg">)</span>
+        <span class="ansi-green-fg">return</span> tuple<span class="ansi-blue-fg">(</span>res<span class="ansi-blue-fg">)</span>
+
+    <span class="ansi-green-fg">def</span> __getattr__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> attr<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+        <span class="ansi-red-fg"># We are careful for copy and pickle.</span>
+        <span class="ansi-red-fg"># Also for simplicity we just don&#39;t relay all dunder names</span>
+        <span class="ansi-green-fg">if</span> <span class="ansi-blue-fg">&#39;__origin__&#39;</span> <span class="ansi-green-fg">in</span> self<span class="ansi-blue-fg">.</span>__dict__ <span class="ansi-green-fg">and</span> <span class="ansi-green-fg">not</span> _is_dunder<span class="ansi-blue-fg">(</span>attr<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+            <span class="ansi-green-fg">return</span> getattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__origin__<span class="ansi-blue-fg">,</span> attr<span class="ansi-blue-fg">)</span>
+        <span class="ansi-green-fg">raise</span> AttributeError<span class="ansi-blue-fg">(</span>attr<span class="ansi-blue-fg">)</span>
+
+    <span class="ansi-green-fg">def</span> __setattr__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> attr<span class="ansi-blue-fg">,</span> val<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+        <span class="ansi-green-fg">if</span> _is_dunder<span class="ansi-blue-fg">(</span>attr<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">or</span> attr <span class="ansi-green-fg">in</span> <span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;_name&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;_inst&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;_nparams&#39;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+            super<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>__setattr__<span class="ansi-blue-fg">(</span>attr<span class="ansi-blue-fg">,</span> val<span class="ansi-blue-fg">)</span>
+        <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+            setattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>__origin__<span class="ansi-blue-fg">,</span> attr<span class="ansi-blue-fg">,</span> val<span class="ansi-blue-fg">)</span>
+
+    <span class="ansi-green-fg">def</span> __instancecheck__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> obj<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+        <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>__subclasscheck__<span class="ansi-blue-fg">(</span>type<span class="ansi-blue-fg">(</span>obj<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+
+    <span class="ansi-green-fg">def</span> __subclasscheck__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> cls<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+        <span class="ansi-green-fg">raise</span> TypeError<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;Subscripted generics cannot be used with&#34;</span>
+                        <span class="ansi-blue-fg">&#34; class and instance checks&#34;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-red-fg">File:</span>           /opt/conda/lib/python3.9/typing.py
+<span class="ansi-red-fg">Type:</span>           type
+<span class="ansi-red-fg">Subclasses:</span>     _GenericAlias, _SpecialGenericAlias
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
 
 </div>
     {% endraw %}
@@ -61,18 +149,103 @@ nb_path: "99_utils.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="enumify" class="doc_header"><code>enumify</code><a href="https://github.com/muellerzr/fastreinference/tree/master/fastreinference/utils.py#L59" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>enumify</code>(<strong><code>special</code></strong>:<code>list</code>=<em><code>None</code></em>)</p>
+<h4 id="Member" class="doc_header"><code>Member</code><a href="" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Member</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>)</p>
+</blockquote>
+<p>Member type; Member[X, Y] means value of X, documentation of Y</p>
+<p>Used to quickly write documented Enums that may
+have a value of the member name, in lower case.</p>
+<p>To define a member type:</p>
+<ul>
+<li>Member["Some documentation"]</li>
+<li>Member["some_value", "Some documentation"]</li>
+</ul>
+<p>If a Member has a single value, the Enum value will be the member name, in lower case,
+and the documentation will be that value</p>
+<p>If two, then the Enum value will be the first, with its documentation the second</p>
+<p>These attributes can be accessed with Member.value or Member.doc</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">Member</span><span class="p">[</span><span class="s2">&quot;Some documentation&quot;</span><span class="p">]</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">doc</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span> <span class="s1">&#39;Member[doc=&quot;Some documentation&quot;]&#39;</span><span class="p">)</span>
+
+<span class="n">t2</span> <span class="o">=</span> <span class="n">Member</span><span class="p">[</span><span class="s2">&quot;My value&quot;</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">]</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="n">doc</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;My value&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span> <span class="s1">&#39;Member[value=&quot;My value&quot;, doc=&quot;Some documentation&quot;]&#39;</span><span class="p">)</span>
+
+<span class="n">t3</span> <span class="o">=</span> <span class="n">Member</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">]</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">t3</span><span class="o">.</span><span class="n">doc</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">t3</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">t3</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span> <span class="s1">&#39;Member[value=3, doc=&quot;Some documentation&quot;]&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="enumify" class="doc_header"><code>enumify</code><a href="https://github.com/muellerzr/fastreinference/tree/master/fastreinference/utils.py#L131" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>enumify</code>(<strong><code>special</code></strong>:<code>list</code>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>A decorator to turn <code>cls</code> into an Enum class with member values as property names, and potentially with documentation</p>
-<p>If any Enum member is defined as a regular tuple of (value, doc), they should be passed in
-to <code>special</code></p>
-<p>Classes should use the following annotation when defining them:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
-<span class="nd">@enumify</span><span class="p">(</span><span class="n">special</span><span class="o">=</span><span class="s2">&quot;name_three&quot;</span><span class="p">)</span>
+<p>Should be documented with the <a href="/fastreinference/utils.html#Member"><code>Member</code></a> type with the following annotation:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">Member</span>
+<span class="nd">@enumify</span>
 <span class="k">class</span> <span class="nc">MyClass</span><span class="p">:</span>
-  <span class="n">NAME</span><span class="p">:</span><span class="n">Any</span> <span class="o">=</span> <span class="s2">&quot;Some documented enum value&quot;</span>
-  <span class="n">name_two</span><span class="p">:</span><span class="n">Any</span> <span class="c1"># An undocumented enum value</span>
-  <span class="n">name_three</span> <span class="o">=</span> <span class="s2">&quot;A value&quot;</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span>
+  <span class="n">NAME</span><span class="p">:</span><span class="n">Member</span><span class="p">[</span><span class="s2">&quot;Some documented enum value&quot;</span><span class="p">]</span>
+  <span class="n">name_two</span><span class="p">:</span><span class="n">Member</span> <span class="c1"># An undocumented enum value</span>
+  <span class="n">name_three</span><span class="p">:</span><span class="n">Memeber</span><span class="p">[</span><span class="s2">&quot;A value&quot;</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">]</span>
 </pre></div>
 
 </div>
@@ -99,11 +272,11 @@ to <code>special</code></p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@enumify</span><span class="p">(</span><span class="n">special</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;WEDNESDAY&quot;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@enumify</span>
 <span class="k">class</span> <span class="nc">DaysOfWeek</span><span class="p">:</span>
-    <span class="n">MONDAY</span><span class="p">:</span><span class="n">Any</span> <span class="o">=</span> <span class="s2">&quot;First day of the week&quot;</span>
-    <span class="n">TUESDAY</span><span class="p">:</span><span class="n">Any</span>
-    <span class="n">WEDNESDAY</span> <span class="o">=</span> <span class="s2">&quot;Wed&quot;</span><span class="p">,</span> <span class="s2">&quot;Second day of the week&quot;</span>
+    <span class="n">MONDAY</span><span class="p">:</span><span class="n">Member</span><span class="p">[</span><span class="s2">&quot;First day of the week&quot;</span><span class="p">]</span>
+    <span class="n">TUESDAY</span><span class="p">:</span><span class="n">Member</span>
+    <span class="n">WEDNESDAY</span><span class="p">:</span><span class="n">Member</span><span class="p">[</span><span class="s2">&quot;Wed&quot;</span><span class="p">,</span> <span class="s2">&quot;Second day of the week&quot;</span><span class="p">]</span>
     
 <span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">MONDAY</span><span class="p">,</span> <span class="s2">&quot;monday&quot;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">MONDAY</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="s2">&quot;First day of the week&quot;</span><span class="p">)</span>

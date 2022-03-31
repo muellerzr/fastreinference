@@ -7,6 +7,7 @@ index = {"DeviceType": "00_configure.ipynb",
          "ManagerType": "00_configure.ipynb",
          "InferenceConfiguration": "00_configure.ipynb",
          "Performer": "01_performer.ipynb",
+         "Member": "99_utils.ipynb",
          "enumify": "99_utils.ipynb"}
 
 modules = ["configure.py",
