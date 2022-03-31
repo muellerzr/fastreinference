@@ -5,7 +5,7 @@ __all__ = ['DeviceType', 'get_default_device', 'ManagerType', 'InferenceConfigur
 # Cell
 from abc import ABC, abstractmethod, abstractproperty
 
-# import torch
+import torch
 from .typing import enumify, Member
 
 # Cell
