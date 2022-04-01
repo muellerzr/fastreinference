@@ -31,7 +31,7 @@ class ManagerType:
     Enum of the various context manager options you can use when doing inference, with documentation of its members
     """
     NO_GRAD:Member["Run with `torch.no_grad`"]
-    INFERENCE:Member["inference_mode", "Run with `torch.inference_mode`"]
+    INFERENCE:Member["Run with `torch.inference_mode`"] = "inference_mode"
     NONE:Member["Keep all gradients and apply no context managers"]
 
 # Cell

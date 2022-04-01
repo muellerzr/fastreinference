@@ -56,18 +56,20 @@ nb_path: "00_typing.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="Member" class="doc_header"><code>Member</code><a href="" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Member</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>)</p>
 </blockquote>
-<p>Member type; Member[X, Y] means value of X, documentation of Y</p>
+<p>Member type; Member[X] means documentation for the annotated item</p>
 <p>Used to quickly write documented Enums that may
 have a value of the member name, in lower case.</p>
 <p>To define a member type:</p>
 <ul>
 <li>Member["Some documentation"]</li>
-<li>Member["some_value", "Some documentation"]</li>
 </ul>
-<p>If a Member has a single value, the Enum value will be the member name, in lower case,
-and the documentation will be that value</p>
-<p>If two, then the Enum value will be the first, with its documentation the second</p>
-<p>These attributes can be accessed with Member.value or Member.doc</p>
+<p>If there is an assign statement after the Member typing, the value for that enum member will be it.
+Otherwise it will be the member name, in lower case:
+```python
+someValue:Member # Will be "somevalue"
+someThing:Member["My thing"] # Will have documentaiton of "My thing" and a value of "something"
+someThing:Member["My thing"] = 2 # Will have documentation of "My thing" and a value of 2</p>
+<p>The documentation can be accessed with <code>Member.doc</code></p>
 
 </div>
 
@@ -93,20 +95,14 @@ and the documentation will be that value</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">Member</span><span class="p">[</span><span class="s2">&quot;Some documentation&quot;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">fastcore.test</span> <span class="kn">import</span> <span class="n">ExceptionExpected</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">Member</span><span class="p">[</span><span class="s2">&quot;Some documentation&quot;</span><span class="p">]</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">doc</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span> <span class="s1">&#39;Member[doc=&quot;Some documentation&quot;]&#39;</span><span class="p">)</span>
 
-<span class="n">t2</span> <span class="o">=</span> <span class="n">Member</span><span class="p">[</span><span class="s2">&quot;My value&quot;</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">]</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="n">doc</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;My value&quot;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">t2</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span> <span class="s1">&#39;Member[value=&quot;My value&quot;, doc=&quot;Some documentation&quot;]&#39;</span><span class="p">)</span>
-
-<span class="n">t3</span> <span class="o">=</span> <span class="n">Member</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">]</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">t3</span><span class="o">.</span><span class="n">doc</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">t3</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">t3</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span> <span class="s1">&#39;Member[value=3, doc=&quot;Some documentation&quot;]&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">ExceptionExpected</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="s2">&quot;Member was passed more than a single value&quot;</span><span class="p">):</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">Member</span><span class="p">[</span><span class="s2">&quot;My value&quot;</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -119,6 +115,177 @@ and the documentation will be that value</p>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="Mem" class="doc_header"><code>Mem</code><a href="" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Mem</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>)</p>
+</blockquote>
+<p>Shorthand version of <a href="/fastreinference/typing.html#Member"><code>Member</code></a></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">Mem</span><span class="p">[</span><span class="s2">&quot;Some documentation&quot;</span><span class="p">]</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">doc</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span> <span class="s1">&#39;Member[doc=&quot;Some documentation&quot;]&#39;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">ExceptionExpected</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="s2">&quot;Member was passed more than a single value&quot;</span><span class="p">):</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">Mem</span><span class="p">[</span><span class="s2">&quot;My value&quot;</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="FunctionalEnum" class="doc_header"><code>FunctionalEnum</code><a href="https://github.com/muellerzr/fastreinference/tree/master/fastreinference/typing.py#L80" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Enum</code> = []</p>
+</blockquote>
+<p>An <code>Enum</code> class implementing <code>__ne__</code>, <code>__eq__</code>, and <code>__str__</code> to compare <code>self.value</code>.</p>
+<p>Compatible with the functional API.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_da</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;zero&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;one&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+
+<span class="n">_d</span> <span class="o">=</span> <span class="n">FunctionalEnum</span><span class="p">(</span><span class="s2">&quot;test_enum&quot;</span><span class="p">,</span> <span class="n">_da</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">_d</span><span class="p">,</span> <span class="s2">&quot;zero&quot;</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">zero</span><span class="p">),</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">zero</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="n">test_eq</span><span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">_d</span><span class="p">,</span> <span class="s2">&quot;one&quot;</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">one</span><span class="p">),</span> <span class="s2">&quot;1&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">one</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="DocumentedEnum" class="doc_header"><code>DocumentedEnum</code><a href="https://github.com/muellerzr/fastreinference/tree/master/fastreinference/typing.py#L91" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Enum</code> = []</p>
+</blockquote>
+<p>An <code>Enum</code> capabile of having its members have docstrings.</p>
+<p>Inherits <a href="/fastreinference/typing.html#FunctionalEnum"><code>FunctionalEnum</code></a> to allow for logic comparison via <code>==</code>, <code>!=</code>,
+and string representation <code>str()</code> of <code>self.value</code></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_da</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;addition&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;Sum of two numbers&quot;</span><span class="p">,</span> <span class="s2">&quot;addition&quot;</span><span class="p">)],</span> <span class="p">[</span><span class="s2">&quot;subtraction&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;Some documentation&quot;</span><span class="p">)],</span> <span class="p">[</span><span class="s2">&quot;multiplication&quot;</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;multiplication&quot;</span><span class="p">)]]</span>
+
+<span class="n">_d</span> <span class="o">=</span> <span class="n">DocumentedEnum</span><span class="p">(</span><span class="s2">&quot;test_enum&quot;</span><span class="p">,</span> <span class="n">_da</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">_d</span><span class="p">,</span> <span class="s2">&quot;addition&quot;</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">addition</span><span class="p">),</span> <span class="s2">&quot;addition&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">addition</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="s2">&quot;Sum of two numbers&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">addition</span> <span class="o">==</span> <span class="s2">&quot;addition&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="n">test_eq</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">subtraction</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">subtraction</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">subtraction</span> <span class="o">!=</span> <span class="s2">&quot;addition&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="n">test_eq</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">multiplication</span><span class="p">),</span> <span class="s2">&quot;multiplication&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">multiplication</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="s2">&quot;An enumeration.&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">_d</span><span class="o">.</span><span class="n">multiplication</span> <span class="o">!=</span> <span class="s2">&quot;addition&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
 
 </div>
     {% endraw %}
@@ -141,7 +308,7 @@ and the documentation will be that value</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="enumify" class="doc_header"><code>enumify</code><a href="https://github.com/muellerzr/fastreinference/tree/master/fastreinference/typing.py#L131" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>enumify</code>(<strong><code>special</code></strong>:<code>list</code>=<em><code>None</code></em>)</p>
+<h4 id="enumify" class="doc_header"><code>enumify</code><a href="https://github.com/muellerzr/fastreinference/tree/master/fastreinference/typing.py#L144" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>enumify</code>()</p>
 </blockquote>
 <p>A decorator to turn <code>cls</code> into an Enum class with member values as property names, and potentially with documentation</p>
 <p>Should be documented with the <a href="/fastreinference/typing.html#Member"><code>Member</code></a> type with the following annotation:</p>
@@ -150,8 +317,9 @@ and the documentation will be that value</p>
 <span class="k">class</span> <span class="nc">MyClass</span><span class="p">:</span>
   <span class="n">NAME</span><span class="p">:</span><span class="n">Member</span><span class="p">[</span><span class="s2">&quot;Some documented enum value&quot;</span><span class="p">]</span>
   <span class="n">name_two</span><span class="p">:</span><span class="n">Member</span> <span class="c1"># An undocumented enum value</span>
-  <span class="n">name_three</span><span class="p">:</span><span class="n">Memeber</span><span class="p">[</span><span class="s2">&quot;A value&quot;</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">]</span>
+  <span class="n">name_three</span><span class="p">:</span><span class="n">Member</span><span class="p">[</span><span class="s2">&quot;Some documentation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;some value&quot;</span>
 </pre></div>
+<p>Can also use the shorthand <a href="/fastreinference/typing.html#Mem"><code>Mem</code></a> type</p>
 
 </div>
 
@@ -181,13 +349,44 @@ and the documentation will be that value</p>
 <span class="k">class</span> <span class="nc">DaysOfWeek</span><span class="p">:</span>
     <span class="n">MONDAY</span><span class="p">:</span><span class="n">Member</span><span class="p">[</span><span class="s2">&quot;First day of the week&quot;</span><span class="p">]</span>
     <span class="n">TUESDAY</span><span class="p">:</span><span class="n">Member</span>
-    <span class="n">WEDNESDAY</span><span class="p">:</span><span class="n">Member</span><span class="p">[</span><span class="s2">&quot;Wed&quot;</span><span class="p">,</span> <span class="s2">&quot;Third day of the week&quot;</span><span class="p">]</span>
-    <span class="n">THURSDAY</span><span class="p">:</span><span class="n">Member</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Fourth day of the week&quot;</span><span class="p">]</span>
+    <span class="n">WEDNESDAY</span><span class="p">:</span><span class="n">Member</span><span class="p">[</span><span class="s2">&quot;Third day of the week&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Wed&quot;</span>
+    <span class="n">THURSDAY</span><span class="p">:</span><span class="n">Member</span><span class="p">[</span><span class="s2">&quot;Fourth day of the week&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
     
 <span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">MONDAY</span><span class="p">,</span> <span class="s2">&quot;monday&quot;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">MONDAY</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="s2">&quot;First day of the week&quot;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">TUESDAY</span><span class="p">,</span> <span class="s2">&quot;tuesday&quot;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">TUESDAY</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">TUESDAY</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="s2">&quot;An enumeration.&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">WEDNESDAY</span><span class="p">,</span> <span class="s2">&quot;Wed&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">WEDNESDAY</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="s2">&quot;Third day of the week&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">THURSDAY</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">THURSDAY</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="s2">&quot;Fourth day of the week&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@enumify</span>
+<span class="k">class</span> <span class="nc">DaysOfWeek</span><span class="p">:</span>
+    <span class="n">MONDAY</span><span class="p">:</span><span class="n">Mem</span><span class="p">[</span><span class="s2">&quot;First day of the week&quot;</span><span class="p">]</span>
+    <span class="n">TUESDAY</span><span class="p">:</span><span class="n">Mem</span>
+    <span class="n">WEDNESDAY</span><span class="p">:</span><span class="n">Mem</span><span class="p">[</span><span class="s2">&quot;Third day of the week&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Wed&quot;</span>
+    <span class="n">THURSDAY</span><span class="p">:</span><span class="n">Mem</span><span class="p">[</span><span class="s2">&quot;Fourth day of the week&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    
+<span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">MONDAY</span><span class="p">,</span> <span class="s2">&quot;monday&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">MONDAY</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="s2">&quot;First day of the week&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">TUESDAY</span><span class="p">,</span> <span class="s2">&quot;tuesday&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">TUESDAY</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="s2">&quot;An enumeration.&quot;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">WEDNESDAY</span><span class="p">,</span> <span class="s2">&quot;Wed&quot;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">WEDNESDAY</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="s2">&quot;Third day of the week&quot;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">THURSDAY</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
