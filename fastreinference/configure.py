@@ -6,7 +6,7 @@ __all__ = ['DeviceType', 'get_default_device', 'ManagerType', 'InferenceConfigur
 from abc import ABC, abstractmethod, abstractproperty
 
 import torch
-from .typing import enumify, Member
+from .typing import enumify, Member, Mem
 
 # Cell
 @enumify
@@ -14,8 +14,8 @@ class DeviceType:
     """
     Enum of all supported device placements
     """
-    CPU:Member
-    CUDA:Member
+    CPU:Mem
+    CUDA:Mem
 
 # Cell
 def get_default_device():
