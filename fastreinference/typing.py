@@ -59,6 +59,7 @@ def Member(self, parameters):
     someValue:Member # Will be "somevalue"
     someThing:Member["My thing"] # Will have documentaiton of "My thing" and a value of "something"
     someThing:Member["My thing"] = 2 # Will have documentation of "My thing" and a value of 2
+    ```
 
     The documentation can be accessed with `Member.doc`
     """
