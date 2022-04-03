@@ -4,8 +4,11 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"Member": "00_typing.ipynb",
          "Mem": "00_typing.ipynb",
+         "Documented": "00_typing.ipynb",
+         "Doc": "00_typing.ipynb",
          "FunctionalEnum": "00_typing.ipynb",
          "DocumentedEnum": "00_typing.ipynb",
+         "multiassert": "00_typing.ipynb",
          "enumify": "00_typing.ipynb",
          "DeviceType": "01_configure.ipynb",
          "get_default_device": "01_configure.ipynb",

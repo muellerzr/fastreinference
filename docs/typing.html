@@ -36,19 +36,6 @@ nb_path: "00_typing.ipynb"
 </div>
     {% endraw %}
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="The-Member-Class">The Member Class<a class="anchor-link" href="#The-Member-Class"> </a></h2>
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -60,22 +47,11 @@ nb_path: "00_typing.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Member" class="doc_header"><code>Member</code><a href="" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Member</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>)</p>
+<h2 id="Member" class="doc_header"><code>class</code> <code>Member</code><a href="https://github.com/muellerzr/fastreinference/tree/master/fastreinference/typing.py#L12" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Member</code>(<strong>*<code>args</code></strong>)</p>
 </blockquote>
-<p>Member type; Member[X] means documentation for the annotated item</p>
-<p>Used to quickly write documented Enums that may
-have a value of the member name, in lower case.</p>
-<p>To define a member type:</p>
-<ul>
-<li>Member["Some documentation"]</li>
-</ul>
-<p>If there is an assign statement after the Member typing, the value for that enum member will be it.
-Otherwise it will be the member name, in lower case:</p>
-<div class="highlight"><pre><span></span><span class="n">someValue</span><span class="p">:</span><span class="n">Member</span> <span class="c1"># Will be &quot;somevalue&quot;</span>
-<span class="n">someThing</span><span class="p">:</span><span class="n">Member</span><span class="p">[</span><span class="s2">&quot;My thing&quot;</span><span class="p">]</span> <span class="c1"># Will have documentaiton of &quot;My thing&quot; and a value of &quot;something&quot;</span>
-<span class="n">someThing</span><span class="p">:</span><span class="n">Member</span><span class="p">[</span><span class="s2">&quot;My thing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># Will have documentation of &quot;My thing&quot; and a value of 2</span>
-</pre></div>
-<p>The documentation can be accessed with <a href="/fastreinference/typing.html#Member.doc"><code>Member.doc</code></a></p>
+<p>Annotation only type to be used within <code>@enumify</code>.</p>
+<p>Used to denote when a member will be of type <code>str</code>,
+with the value being its member name in lowercase.</p>
 
 </div>
 
@@ -103,12 +79,11 @@ Otherwise it will be the member name, in lower case:</p>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">fastcore.test</span> <span class="kn">import</span> <span class="n">ExceptionExpected</span>
 
-<span class="n">t</span> <span class="o">=</span> <span class="n">Member</span><span class="p">[</span><span class="s2">&quot;Some documentation&quot;</span><span class="p">]</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">doc</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span> <span class="s1">&#39;Member[doc=&quot;Some documentation&quot;]&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">ExceptionExpected</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="s2">&quot;Member is a documentation type, cannot be instantiated&quot;</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">Member</span><span class="p">()</span>
 
-<span class="k">with</span> <span class="n">ExceptionExpected</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="s2">&quot;Member was passed more than a single value&quot;</span><span class="p">):</span>
-    <span class="n">t2</span> <span class="o">=</span> <span class="n">Member</span><span class="p">[</span><span class="s2">&quot;My value&quot;</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">]</span>
+<span class="k">with</span> <span class="n">ExceptionExpected</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="s2">&quot;Member is a documentation type, cannot be instantiated&quot;</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">Mem</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -129,9 +104,10 @@ Otherwise it will be the member name, in lower case:</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Mem" class="doc_header"><code>Mem</code><a href="" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Mem</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwds</code></strong>)</p>
+<h2 id="Documented" class="doc_header"><code>class</code> <code>Documented</code><a href="https://github.com/muellerzr/fastreinference/tree/master/fastreinference/typing.py#L24" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Documented</code>(<strong>*<code>args</code></strong>)</p>
 </blockquote>
-<p>Shorthand version of <a href="/fastreinference/typing.html#Member"><code>Member</code></a></p>
+<p>Annotation only type to be used within <code>@enumify</code>.</p>
+<p>Used to denote when a member will have a docstring as its last assert.</p>
 
 </div>
 
@@ -157,12 +133,13 @@ Otherwise it will be the member name, in lower case:</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">Mem</span><span class="p">[</span><span class="s2">&quot;Some documentation&quot;</span><span class="p">]</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">doc</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span> <span class="s1">&#39;Member[doc=&quot;Some documentation&quot;]&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">fastcore.test</span> <span class="kn">import</span> <span class="n">ExceptionExpected</span>
 
-<span class="k">with</span> <span class="n">ExceptionExpected</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="s2">&quot;Member was passed more than a single value&quot;</span><span class="p">):</span>
-    <span class="n">t2</span> <span class="o">=</span> <span class="n">Mem</span><span class="p">[</span><span class="s2">&quot;My value&quot;</span><span class="p">,</span> <span class="s2">&quot;Some documentation&quot;</span><span class="p">]</span>
+<span class="k">with</span> <span class="n">ExceptionExpected</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="s2">&quot;Documented is a documentation type, cannot be instantiated&quot;</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">Documented</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">ExceptionExpected</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="s2">&quot;Documented is a documentation type, cannot be instantiated&quot;</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">Doc</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -183,7 +160,7 @@ Otherwise it will be the member name, in lower case:</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="FunctionalEnum" class="doc_header"><code>FunctionalEnum</code><a href="https://github.com/muellerzr/fastreinference/tree/master/fastreinference/typing.py#L81" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Enum</code> = []</p>
+<h2 id="FunctionalEnum" class="doc_header"><code>FunctionalEnum</code><a href="https://github.com/muellerzr/fastreinference/tree/master/fastreinference/typing.py#L35" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Enum</code> = []</p>
 </blockquote>
 <p>An <code>Enum</code> class implementing <code>__ne__</code>, <code>__eq__</code>, and <code>__str__</code> to compare <code>self.value</code>.</p>
 <p>Compatible with the functional API.</p>
@@ -242,11 +219,11 @@ Otherwise it will be the member name, in lower case:</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DocumentedEnum" class="doc_header"><code>DocumentedEnum</code><a href="https://github.com/muellerzr/fastreinference/tree/master/fastreinference/typing.py#L92" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Enum</code> = []</p>
+<h2 id="DocumentedEnum" class="doc_header"><code>DocumentedEnum</code><a href="https://github.com/muellerzr/fastreinference/tree/master/fastreinference/typing.py#L46" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Enum</code> = []</p>
 </blockquote>
 <p>An <code>Enum</code> capabile of having its members have docstrings.</p>
 <p>Inherits <a href="/fastreinference/typing.html#FunctionalEnum"><code>FunctionalEnum</code></a> to allow for logic comparison via <code>==</code>, <code>!=</code>,
-and string representation <code>str()</code> of <code>self.value</code></p>
+and string representation <code>str()</code> of <code>self.value</code>.</p>
 
 </div>
 
@@ -300,6 +277,39 @@ and string representation <code>str()</code> of <code>self.value</code></p>
     
 <div class="cell border-box-sizing code_cell rendered">
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="multiassert" class="doc_header"><code>multiassert</code><a href="https://github.com/muellerzr/fastreinference/tree/master/fastreinference/typing.py#L68" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>multiassert</code>(<strong><code>type</code></strong>, <strong><code>types</code></strong>:<code>list</code>=<em><code>[]</code></em>)</p>
+</blockquote>
+<p>Runs <code>==</code> on all <code>types</code></p>
+<p>If any are <code>True</code>, returns <code>True</code>.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
 </div>
     {% endraw %}
 
@@ -320,7 +330,7 @@ and string representation <code>str()</code> of <code>self.value</code></p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="enumify" class="doc_header"><code>enumify</code><a href="https://github.com/muellerzr/fastreinference/tree/master/fastreinference/typing.py#L145" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>enumify</code>()</p>
+<h4 id="enumify" class="doc_header"><code>enumify</code><a href="https://github.com/muellerzr/fastreinference/tree/master/fastreinference/typing.py#L116" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>enumify</code>()</p>
 </blockquote>
 <p>A decorator to turn <code>cls</code> into an Enum class with member values as property names, and potentially with documentation</p>
 <p>Should be documented with the <a href="/fastreinference/typing.html#Member"><code>Member</code></a> type with the following annotation:</p>
@@ -359,10 +369,10 @@ and string representation <code>str()</code> of <code>self.value</code></p>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@enumify</span>
 <span class="k">class</span> <span class="nc">DaysOfWeek</span><span class="p">:</span>
-    <span class="n">MONDAY</span><span class="p">:</span><span class="n">Member</span><span class="p">[</span><span class="s2">&quot;First day of the week&quot;</span><span class="p">]</span>
+    <span class="n">MONDAY</span><span class="p">:</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Member</span><span class="p">,</span><span class="n">Documented</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;First day of the week&quot;</span>
     <span class="n">TUESDAY</span><span class="p">:</span><span class="n">Member</span>
-    <span class="n">WEDNESDAY</span><span class="p">:</span><span class="n">Member</span><span class="p">[</span><span class="s2">&quot;Third day of the week&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Wed&quot;</span>
-    <span class="n">THURSDAY</span><span class="p">:</span><span class="n">Member</span><span class="p">[</span><span class="s2">&quot;Fourth day of the week&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">WEDNESDAY</span><span class="p">:</span><span class="n">Documented</span> <span class="o">=</span> <span class="s2">&quot;Wed&quot;</span><span class="p">,</span> <span class="s2">&quot;Third day of the week&quot;</span>
+    <span class="n">THURSDAY</span><span class="p">:</span><span class="n">Documented</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Fourth day of the week&quot;</span>
     
 <span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">MONDAY</span><span class="p">,</span> <span class="s2">&quot;monday&quot;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">MONDAY</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="s2">&quot;First day of the week&quot;</span><span class="p">)</span>
@@ -390,10 +400,10 @@ and string representation <code>str()</code> of <code>self.value</code></p>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@enumify</span>
 <span class="k">class</span> <span class="nc">DaysOfWeek</span><span class="p">:</span>
-    <span class="n">MONDAY</span><span class="p">:</span><span class="n">Mem</span><span class="p">[</span><span class="s2">&quot;First day of the week&quot;</span><span class="p">]</span>
+    <span class="n">MONDAY</span><span class="p">:</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Mem</span><span class="p">,</span><span class="n">Doc</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;First day of the week&quot;</span>
     <span class="n">TUESDAY</span><span class="p">:</span><span class="n">Mem</span>
-    <span class="n">WEDNESDAY</span><span class="p">:</span><span class="n">Mem</span><span class="p">[</span><span class="s2">&quot;Third day of the week&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Wed&quot;</span>
-    <span class="n">THURSDAY</span><span class="p">:</span><span class="n">Mem</span><span class="p">[</span><span class="s2">&quot;Fourth day of the week&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">WEDNESDAY</span><span class="p">:</span><span class="n">Doc</span> <span class="o">=</span> <span class="s2">&quot;Wed&quot;</span><span class="p">,</span> <span class="s2">&quot;Third day of the week&quot;</span>
+    <span class="n">THURSDAY</span><span class="p">:</span><span class="n">Doc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Fourth day of the week&quot;</span>
     
 <span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">MONDAY</span><span class="p">,</span> <span class="s2">&quot;monday&quot;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">DaysOfWeek</span><span class="o">.</span><span class="n">MONDAY</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span> <span class="s2">&quot;First day of the week&quot;</span><span class="p">)</span>
